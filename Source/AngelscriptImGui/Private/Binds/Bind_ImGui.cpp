@@ -1949,6 +1949,24 @@ FAngelscriptBinds::FBind Bind_ImGui_Style(FAngelscriptBinds::EOrder::Late, []
 	});
 });
 
+FAngelscriptBinds::FBind Bind_ImGui_ColorEdit(FAngelscriptBinds::EOrder::Late, []
+{
+	FAngelscriptBinds::FNamespace ImGuiNamespace("ImGui");
+	FAngelscriptBinds::BindGlobalFunction("bool ColorEdit4(const FString& Label, FColor& Color, EImGuiColorEditFlags Flags = EImGuiColorEditFlags::None)",
+	[](const FString& Label, FColor& Color, const ImGuiColorEditFlags Flags) {
+		float ColorArray[4] = { Color.R / 255.0f, Color.G / 255.0f, Color.B / 255.0f, Color.A / 255.0f };
+		const bool bResult = ImGui::ColorEdit4(IMGUI_STR(Label), ColorArray, Flags);
+		if (bResult)
+		{
+			Color.R = FMath::Clamp(FMath::RoundToInt(ColorArray[0] * 255), 0, 255);
+			Color.G = FMath::Clamp(FMath::RoundToInt(ColorArray[1] * 255), 0, 255);
+			Color.B = FMath::Clamp(FMath::RoundToInt(ColorArray[2] * 255), 0, 255);
+			Color.A = FMath::Clamp(FMath::RoundToInt(ColorArray[3] * 255), 0, 255);
+		}
+		return bResult;
+	});
+});
+
 FAngelscriptBinds::FBind Bind_ImGui_Widget_InputUtilitiesMouse(FAngelscriptBinds::EOrder::Late, []
 {
 	FAngelscriptBinds::FNamespace ImGuiNamespace("ImGui");
