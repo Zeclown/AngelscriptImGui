@@ -913,6 +913,11 @@ FAngelscriptBinds::FBind Bind_ImGui_Main_Widgets(FAngelscriptBinds::EOrder::Late
 	{
 		return ImGui::Button(IMGUI_STR(Label), ToImGui(Size));
 	});
+	FAngelscriptBinds::BindGlobalFunction("bool Button(const FString& Label, const FVector2f& Size)",
+	[](const FString& Label, const FVector2f& Size) -> bool
+	{
+		return ImGui::Button(ToImGui(Label), ToImGui(Size));
+	});
 	FAngelscriptBinds::BindGlobalFunction("bool SmallButton(const FString& Label)",
 	[](const FString& Label) -> bool
 	{
@@ -937,6 +942,21 @@ FAngelscriptBinds::FBind Bind_ImGui_Main_Widgets(FAngelscriptBinds::EOrder::Late
 	[](const float Fraction, const FVector2f& Size, const FString& Overlay) -> void
 	{
 		ImGui::ProgressBar(Fraction, ToImGui(Size), IMGUI_STR(Overlay));
+	});
+	FAngelscriptBinds::BindGlobalFunction("bool RadioButton(const FString& Label, bool bActive)",
+	[](const FString& Label, const bool bActive) -> bool
+	{
+		return ImGui::RadioButton(ToImGui(Label), bActive);
+	});
+	FAngelscriptBinds::BindGlobalFunction("bool RadioButton(const FString& Label, int32& Value, int32 ButtonValue)",
+	[](const FString& Label, int32& Value, const int32 ButtonValue) -> bool
+	{
+		return ImGui::RadioButton(ToImGui(Label), &Value, ButtonValue);
+	});
+	FAngelscriptBinds::BindGlobalFunction("bool ProgressBar(float32 Fraction, const FVector2f& Size = FVector2f(-1, 0), const FString& Overlay = \"\")",
+	[](const float Fraction, const FVector2f& Size, const FString& Overlay) -> void
+	{
+		ImGui::ProgressBar(Fraction, ToImGui(Size), ToImGui(Overlay));
 	});
 	FAngelscriptBinds::BindGlobalFunction("bool Bullet()",
 	[]() -> void
@@ -1704,6 +1724,36 @@ FAngelscriptBinds::FBind Bind_ImGui_TreeNode(FAngelscriptBinds::EOrder::Late, []
 	[](const FString& Label, const ImGuiTreeNodeFlags Flags) -> bool
 	{
 		return ImGui::CollapsingHeader(IMGUI_STR(Label), Flags);
+	});
+});
+
+FAngelscriptBinds::FBind Bind_ImGui_TreeNode(FAngelscriptBinds::EOrder::Late, []
+{
+	FAngelscriptBinds::FNamespace ImGuiNamespace("ImGui");
+	FAngelscriptBinds::BindGlobalFunction("bool TreeNode(const FString& Label)",
+	[](const FString& Label) -> bool
+	{
+		return ImGui::TreeNode(ToImGui(Label));
+	});
+	FAngelscriptBinds::BindGlobalFunction("bool TreeNodeEx(const FString& Label, EImGuiTreeNodeFlags Flags = EImGuiTreeNodeFlags::None)",
+	[](const FString& Label, const ImGuiTreeNodeFlags Flags) -> bool
+	{
+		return ImGui::TreeNodeEx(ToImGui(Label), Flags);
+	});
+	FAngelscriptBinds::BindGlobalFunction("void TreePop()",
+	[]() -> void
+	{
+		ImGui::TreePop();
+	});
+	FAngelscriptBinds::BindGlobalFunction("void SetNextTreeNodeOpen(bool bOpen, EImGuiCond Cond = EImGuiCond::None)",
+	[](const bool bOpen, const ImGuiCond Cond) -> void
+	{
+		ImGui::SetNextItemOpen(bOpen, Cond);
+	});
+	FAngelscriptBinds::BindGlobalFunction("bool CollapsingHeader(const FString& Label, EImGuiTreeNodeFlags Flags = EImGuiTreeNodeFlags::None)",
+	[](const FString& Label, const ImGuiTreeNodeFlags Flags) -> bool
+	{
+		return ImGui::CollapsingHeader(ToImGui(Label), Flags);
 	});
 });
 
