@@ -8,6 +8,15 @@
 
 #include "implot.h"
 
+// Since ImPlot doesn't provide a numeric version macro, we'll check the string version
+// For now, we'll assume we're using 0.17 since that's what's in the project
+// If you need to support older versions, define IMPLOT_USE_OLDER_VERSION before including this file
+#ifndef IMPLOT_USE_OLDER_VERSION
+    #define IMPLOT_VERSION_017_OR_NEWER 1
+#else
+    #define IMPLOT_VERSION_017_OR_NEWER 0
+#endif
+
 FAngelscriptBinds::FBind Bind_ImAxis(FAngelscriptBinds::EOrder::Early, []
 {
 	IMGUI_ENUM(ImAxis, "Axis indices. The values assigned may change; NEVER hardcode these.");
@@ -29,11 +38,13 @@ FAngelscriptBinds::FBind Bind_ImPlotFlags(FAngelscriptBinds::EOrder::Early, []
     IMGUI_ENUM_VALUE(ImPlotFlags, NoInputs,);
     IMGUI_ENUM_VALUE(ImPlotFlags, NoMenus,);
     IMGUI_ENUM_VALUE(ImPlotFlags, NoBoxSelect,);
-    IMGUI_ENUM_VALUE(ImPlotFlags, NoChild,);
+#if !IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotFlags, NoChild,);      // Removed in 0.17
+    IMGUI_ENUM_VALUE(ImPlotFlags, AntiAliased,);  // Removed in 0.17
+#endif
     IMGUI_ENUM_VALUE(ImPlotFlags, NoFrame,);
     IMGUI_ENUM_VALUE(ImPlotFlags, Equal,);
     IMGUI_ENUM_VALUE(ImPlotFlags, Crosshairs,);
-    IMGUI_ENUM_VALUE(ImPlotFlags, AntiAliased,);
     IMGUI_ENUM_VALUE(ImPlotFlags, CanvasOnly,);
 });
 
@@ -47,13 +58,22 @@ FAngelscriptBinds::FBind Bind_ImPlotAxisFlags(FAngelscriptBinds::EOrder::Early, 
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, NoTickLabels,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, NoInitialFit,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, NoMenus,);
+#if IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotAxisFlags, NoSideSwitch,);  // Added in 0.17
+    IMGUI_ENUM_VALUE(ImPlotAxisFlags, NoHighlight,);   // Added in 0.17
+#endif
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, Opposite,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, Foreground,);
-    IMGUI_ENUM_VALUE(ImPlotAxisFlags, LogScale,);
-    IMGUI_ENUM_VALUE(ImPlotAxisFlags, Time,);
+#if !IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotAxisFlags, LogScale,);  // Removed in 0.17
+    IMGUI_ENUM_VALUE(ImPlotAxisFlags, Time,);      // Removed in 0.17
+#endif
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, Invert,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, AutoFit,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, RangeFit,);
+#if IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotAxisFlags, PanStretch,);  // Added in 0.17
+#endif
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, LockMin,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, LockMax,);
     IMGUI_ENUM_VALUE(ImPlotAxisFlags, Lock,);
