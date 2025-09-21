@@ -108,6 +108,9 @@ FAngelscriptBinds::FBind Bind_ImPlotLegendFlags(FAngelscriptBinds::EOrder::Early
     IMGUI_ENUM_VALUE(ImPlotLegendFlags, NoMenus,);
     IMGUI_ENUM_VALUE(ImPlotLegendFlags, Outside,);
     IMGUI_ENUM_VALUE(ImPlotLegendFlags, Horizontal,);
+#if IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotLegendFlags, Sort,);  // Added in 0.17 - displays legend entries in alphabetical order
+#endif
 });
 
 FAngelscriptBinds::FBind Bind_ImPlotMouseTextFlags(FAngelscriptBinds::EOrder::Early, []
@@ -133,6 +136,9 @@ FAngelscriptBinds::FBind Bind_ImPlotBarGroupsFlags(FAngelscriptBinds::EOrder::Ea
 {
 	IMGUI_ENUM(ImPlotBarGroupsFlags, "Flags for ImPlot::PlotBarGroups");
     IMGUI_ENUM_VALUE(ImPlotBarGroupsFlags, None,);
+#if IMPLOT_VERSION_017_OR_NEWER
+    IMGUI_ENUM_VALUE(ImPlotBarGroupsFlags, Horizontal,);  // Added in 0.17 - renders bar groups horizontally
+#endif
     IMGUI_ENUM_VALUE(ImPlotBarGroupsFlags, Stacked,);
 });
 
@@ -252,6 +258,93 @@ FAngelscriptBinds::FBind Bind_ImPlotLocation(FAngelscriptBinds::EOrder::Early, [
     IMGUI_ENUM_VALUE(ImPlotLocation, SouthWest,);
     IMGUI_ENUM_VALUE(ImPlotLocation, SouthEast,);
 });
+
+#if IMPLOT_VERSION_017_OR_NEWER
+// New enums added in ImPlot 0.17
+
+FAngelscriptBinds::FBind Bind_ImPlotScale(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotScale, "Axis scale types");
+    IMGUI_ENUM_VALUE(ImPlotScale, Linear,);
+    IMGUI_ENUM_VALUE(ImPlotScale, Time,);
+    IMGUI_ENUM_VALUE(ImPlotScale, Log10,);
+    IMGUI_ENUM_VALUE(ImPlotScale, SymLog,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotBin(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotBin, "Histogram binning methods");
+    IMGUI_ENUM_VALUE(ImPlotBin, Sqrt,);
+    IMGUI_ENUM_VALUE(ImPlotBin, Sturges,);
+    IMGUI_ENUM_VALUE(ImPlotBin, Rice,);
+    IMGUI_ENUM_VALUE(ImPlotBin, Scott,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotItemFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotItemFlags, "General item flags for plots");
+    IMGUI_ENUM_VALUE(ImPlotItemFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotItemFlags, NoLegend,);
+    IMGUI_ENUM_VALUE(ImPlotItemFlags, NoFit,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotLineFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotLineFlags, "Options for line plots");
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, Segments,);
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, Loop,);
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, SkipNaN,);
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, NoClip,);
+    IMGUI_ENUM_VALUE(ImPlotLineFlags, Shaded,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotScatterFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotScatterFlags, "Options for scatter plots");
+    IMGUI_ENUM_VALUE(ImPlotScatterFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotScatterFlags, NoClip,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotBarsFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotBarsFlags, "Options for bar plots");
+    IMGUI_ENUM_VALUE(ImPlotBarsFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotBarsFlags, Horizontal,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotHistogramFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotHistogramFlags, "Options for histogram plots");
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, Horizontal,);
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, Cumulative,);
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, Density,);
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, NoOutliers,);
+    IMGUI_ENUM_VALUE(ImPlotHistogramFlags, ColMajor,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotTextFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotTextFlags, "Options for plot text");
+    IMGUI_ENUM_VALUE(ImPlotTextFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotTextFlags, Vertical,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotInfLinesFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotInfLinesFlags, "Options for infinite lines");
+    IMGUI_ENUM_VALUE(ImPlotInfLinesFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotInfLinesFlags, Horizontal,);
+});
+
+FAngelscriptBinds::FBind Bind_ImPlotErrorBarsFlags(FAngelscriptBinds::EOrder::Early, []
+{
+	IMGUI_ENUM(ImPlotErrorBarsFlags, "Options for error bars");
+    IMGUI_ENUM_VALUE(ImPlotErrorBarsFlags, None,);
+    IMGUI_ENUM_VALUE(ImPlotErrorBarsFlags, Horizontal,);
+});
+#endif  // IMPLOT_VERSION_017_OR_NEWER
 
 FAngelscriptBinds::FBind Bind_ImGui_Plot(FAngelscriptBinds::EOrder::Late, []
 {
@@ -460,7 +553,11 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 	{
 		if (!Values.IsEmpty())
 		{
+#if IMPLOT_VERSION_017_OR_NEWER
+			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarWidth, ImPlotBarsFlags_None, 0, sizeof(FVector2f));
+#else
 			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarWidth, 0, sizeof(FVector2f));
+#endif
 		}
 	});
 	FAngelscriptBinds::BindGlobalFunction("void PlotBars(const FString& Label, const TArray<FVector2D> Values, float64 BarWidth = 0.67)",
@@ -468,9 +565,15 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 	{
 		if (!Values.IsEmpty())
 		{
+#if IMPLOT_VERSION_017_OR_NEWER
+			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarWidth, ImPlotBarsFlags_None, 0, sizeof(FVector2D));
+#else
 			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarWidth, 0, sizeof(FVector2D));
+#endif
 		}
 	});
+#if !IMPLOT_VERSION_017_OR_NEWER
+	// PlotBarsH was removed in ImPlot 0.17 - use PlotBars with ImPlotBarsFlags_Horizontal instead
 	FAngelscriptBinds::BindGlobalFunction("void PlotBarsH(const FString& Label, const TArray<FVector2f> Values, float64 BarHeight = 0.67)",
 	[](const FString& Label, const TArray<FVector2f>& Values, const double BarHeight)
 	{
@@ -487,12 +590,28 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 			ImPlot::PlotBarsH(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarHeight, 0, sizeof(FVector2D));
 		}
 	});
-	// void PlotBarGroups(const char* const label_ids[], const T* values, int item_count, int group_count, double group_width=0.67, double x0=0, ImPlotBarGroupsFlags flags=ImPlotBarGroupsFlags_None);
-	// void PlotBarGroupsH(const char* const label_ids[], const T* values, int item_count, int group_count, double group_height=0.67, double y0=0, ImPlotBarGroupsFlags flags=ImPlotBarGroupsFlags_None);
-	// void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
-	// void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset=0, int stride=sizeof(T));
-	// void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
-	// void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset=0, int stride=sizeof(T));
+#else
+	// In ImPlot 0.17+, PlotBarsH is replaced with PlotBars using ImPlotBarsFlags_Horizontal
+	FAngelscriptBinds::BindGlobalFunction("void PlotBarsH(const FString& Label, const TArray<FVector2f> Values, float64 BarHeight = 0.67)",
+	[](const FString& Label, const TArray<FVector2f>& Values, const double BarHeight)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarHeight, ImPlotBarsFlags_Horizontal, 0, sizeof(FVector2f));
+		}
+	});
+	FAngelscriptBinds::BindGlobalFunction("void PlotBarsH(const FString& Label, const TArray<FVector2D> Values, float64 BarHeight = 0.67)",
+	[](const FString& Label, const TArray<FVector2D>& Values, const double BarHeight)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotBars(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarHeight, ImPlotBarsFlags_Horizontal, 0, sizeof(FVector2D));
+		}
+	});
+#endif
+	// In ImPlot 0.17+:
+	// - PlotBarGroupsH is replaced with PlotBarGroups using ImPlotBarGroupsFlags_Horizontal
+	// - PlotErrorBarsH is replaced with PlotErrorBars using ImPlotErrorBarsFlags_Horizontal
 	FAngelscriptBinds::BindGlobalFunction("void PlotStems(const FString& Label, const TArray<FVector2f> Values, float64 BarHeight = 0.67)",
 	[](const FString& Label, const TArray<FVector2f>& Values, const double BarHeight)
 	{
@@ -509,12 +628,14 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 			ImPlot::PlotStems(IMGUI_STR(Label), &Values[0].X, &Values[0].Y, Values.Num(), BarHeight, 0, sizeof(FVector2D));
 		}
 	});
+#if !IMPLOT_VERSION_017_OR_NEWER
+	// PlotVLines and PlotHLines were removed in ImPlot 0.17 - use PlotInfLines instead
 	FAngelscriptBinds::BindGlobalFunction("void PlotVLines(const FString& Label, const TArray<float32> Values)",
 	[](const FString& Label, const TArray<float>& Values)
 	{
 		if (!Values.IsEmpty())
 		{
-			ImPlot::PlotVLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), 0, sizeof(FVector2D));
+			ImPlot::PlotVLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), 0, sizeof(float));
 		}
 	});
 	FAngelscriptBinds::BindGlobalFunction("void PlotVLines(const FString& Label, const TArray<float64> Values)",
@@ -530,7 +651,7 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 	{
 		if (!Values.IsEmpty())
 		{
-			ImPlot::PlotHLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), 0, sizeof(FVector2D));
+			ImPlot::PlotHLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), 0, sizeof(float));
 		}
 	});
 	FAngelscriptBinds::BindGlobalFunction("void PlotHLines(const FString& Label, const TArray<float64> Values)",
@@ -541,6 +662,41 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 			ImPlot::PlotHLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), 0, sizeof(double));
 		}
 	});
+#else
+	// In ImPlot 0.17+, PlotVLines/PlotHLines are replaced with PlotInfLines
+	FAngelscriptBinds::BindGlobalFunction("void PlotVLines(const FString& Label, const TArray<float32> Values)",
+	[](const FString& Label, const TArray<float>& Values)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotInfLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), ImPlotInfLinesFlags_None, 0, sizeof(float));
+		}
+	});
+	FAngelscriptBinds::BindGlobalFunction("void PlotVLines(const FString& Label, const TArray<float64> Values)",
+	[](const FString& Label, const TArray<double>& Values)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotInfLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), ImPlotInfLinesFlags_None, 0, sizeof(double));
+		}
+	});
+	FAngelscriptBinds::BindGlobalFunction("void PlotHLines(const FString& Label, const TArray<float32> Values)",
+	[](const FString& Label, const TArray<float>& Values)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotInfLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), ImPlotInfLinesFlags_Horizontal, 0, sizeof(float));
+		}
+	});
+	FAngelscriptBinds::BindGlobalFunction("void PlotHLines(const FString& Label, const TArray<float64> Values)",
+	[](const FString& Label, const TArray<double>& Values)
+	{
+		if (!Values.IsEmpty())
+		{
+			ImPlot::PlotInfLines(IMGUI_STR(Label), Values.GetData(), Values.Num(), ImPlotInfLinesFlags_Horizontal, 0, sizeof(double));
+		}
+	});
+#endif
 	// void PlotPieChart(const char* const label_ids[], const T* values, int count, double x, double y, double radius, bool normalize=false, const char* label_fmt="%.1f", double angle0=90);
 	// void PlotHeatmap(const char* label_id, const T* values, int rows, int cols, double scale_min=0, double scale_max=0, const char* label_fmt="%.1f", const ImPlotPoint& bounds_min=ImPlotPoint(0,0), const ImPlotPoint& bounds_max=ImPlotPoint(1,1));
 	// double PlotHistogram(const char* label_id, const T* values, int count, int bins=ImPlotBin_Sturges, bool cumulative=false, bool density=false, ImPlotRange range=ImPlotRange(), bool outliers=true, double bar_scale=1.0);
@@ -562,11 +718,28 @@ FAngelscriptBinds::FBind Bind_ImGui_PlotItems(FAngelscriptBinds::EOrder::Late, [
 		}
 	});
 	// void PlotImage(const char* label_id, ImTextureID user_texture_id, const ImPlotPoint& bounds_min, const ImPlotPoint& bounds_max, const ImVec2& uv0=ImVec2(0,0), const ImVec2& uv1=ImVec2(1,1), const ImVec4& tint_col=ImVec4(1,1,1,1));
+#if !IMPLOT_VERSION_017_OR_NEWER
+	// Legacy PlotText API with bool Vertical parameter
 	FAngelscriptBinds::BindGlobalFunction("void PlotText(const FString& Text, float64 X, float64 Y, bool Vertical = false, const FVector2f& Offset = FVector2f(0, 0))",
 	[](const FString& Text, const double X, const double Y, const bool Vertical = false, const FVector2f& Offset = FVector2f(0, 0))
 	{
 		ImPlot::PlotText(IMGUI_STR(Text), X, Y, Vertical, ToImGui(Offset));
 	});
+#else
+	// ImPlot 0.17+ API with ImPlotTextFlags (parameter order changed: offset before flags)
+	FAngelscriptBinds::BindGlobalFunction("void PlotText(const FString& Text, float64 X, float64 Y, const FVector2f& Offset = FVector2f(0, 0), EImPlotTextFlags Flags = EImPlotTextFlags::None)",
+	[](const FString& Text, const double X, const double Y, const FVector2f& Offset = FVector2f(0, 0), const ImPlotTextFlags Flags = ImPlotTextFlags_None)
+	{
+		ImPlot::PlotText(IMGUI_STR(Text), X, Y, ToImGui(Offset), Flags);
+	});
+	// Backward compatibility function for old bool Vertical parameter
+	FAngelscriptBinds::BindGlobalFunction("void PlotText(const FString& Text, float64 X, float64 Y, bool Vertical = false, const FVector2f& Offset = FVector2f(0, 0))",
+	[](const FString& Text, const double X, const double Y, const bool Vertical = false, const FVector2f& Offset = FVector2f(0, 0))
+	{
+		ImPlotTextFlags flags = Vertical ? ImPlotTextFlags_Vertical : ImPlotTextFlags_None;
+		ImPlot::PlotText(IMGUI_STR(Text), X, Y, ToImGui(Offset), flags);
+	});
+#endif
 	FAngelscriptBinds::BindGlobalFunction("void PlotDummy(const FString& Label)",
 	[](const FString& Label)
 	{

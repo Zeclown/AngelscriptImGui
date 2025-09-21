@@ -1673,7 +1673,7 @@ FAngelscriptBinds::FBind Bind_ImGui_Tooltips(FAngelscriptBinds::EOrder::Late, []
 {
 	FAngelscriptBinds::FNamespace ImGuiNamespace("ImGui");
 	FAngelscriptBinds::BindGlobalFunction("bool BeginTooltip()",
-	[]() -> void
+	[]()
 	{
 		return ImGui::BeginTooltip();
 	});
