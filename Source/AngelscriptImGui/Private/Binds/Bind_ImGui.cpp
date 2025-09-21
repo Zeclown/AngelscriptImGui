@@ -698,11 +698,23 @@ FAngelscriptBinds::FBind Bind_ImGui_Window_Utilities(FAngelscriptBinds::EOrder::
 	{
 		return ImGui::GetWindowHeight();
 	});
+	// GetWindowContentRegionWidth() was removed in ImGui 1.91
+#if IMGUI_VERSION_NUM < 19100
 	FAngelscriptBinds::BindGlobalFunction("float32 GetWindowContentRegionWidth()",
 	[]() -> float
 	{
 		return ImGui::GetWindowContentRegionWidth();
 	});
+#else
+	// Provide compatibility function for newer ImGui versions
+	FAngelscriptBinds::BindGlobalFunction("float32 GetWindowContentRegionWidth()",
+	[]() -> float
+	{
+		ImVec2 Min = ImGui::GetWindowContentRegionMin();
+		ImVec2 Max = ImGui::GetWindowContentRegionMax();
+		return Max.x - Min.x;
+	});
+#endif
 });
 
 FAngelscriptBinds::FBind Bind_ImGui_Window_Manipulation(FAngelscriptBinds::EOrder::Late, []
